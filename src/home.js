@@ -29,14 +29,14 @@ const AvailableVacation = () => {
     const [date, setDate] = useState();
     const [useDays, setHours] = useState();
     const [vacation, setVacation] = useState();
-    const [employee, setEmployee] = useState();
+    const [employee, setEmployee] = useState([]);
     const [totalVacation, setTotalVacation] = useState()
     const [open, setOpen] = useState(false);
     const [fromDate, setFromDate] = useState();
     const [toDate, setToDate] = useState();
     const [vacationHours, setVacationDays] = useState();
     const [takenDays, setTakenDays] = useState()
-    const [timeSheet, setTimeSheet] = useState()
+    const [timeSheet, setTimeSheet] = useState([])
     const [error, setError] = useState("");
   
 
@@ -310,7 +310,7 @@ const AvailableVacation = () => {
                     </select>
                 </div>
                 <div style={{ marginTop: "25px" }}>
-                    {employee === null ? null :
+                    {employee.length <= 0 ? null :
                         <TableContainer component={Paper}>
                             <Table sx={{ minWidth: 650 }} aria-label="simple table">
                                 <TableHead>
@@ -318,9 +318,9 @@ const AvailableVacation = () => {
                                         <TableCell align="left" sx={{ fontSize: 16, fontWeight: "bold" }}>Employee Name</TableCell>
                                         <TableCell align="left" sx={{ fontSize: 16, fontWeight: "bold" }}>Date of Joining</TableCell>
                                         <TableCell align="left" sx={{ fontSize: 16, fontWeight: "bold" }}>Role</TableCell>
-                                        <TableCell align="left" sx={{ fontSize: 16, fontWeight: "bold" }}>Total Vacation {employee[0].role === "a" ? "Days" : "Hours"}</TableCell>
-                                        <TableCell align="left" sx={{ fontSize: 16, fontWeight: "bold" }}>Vacation Taken {employee[0].role === "a" ? "Days" : "Hours"}</TableCell>
-                                        <TableCell align="left" sx={{ fontSize: 16, fontWeight: "bold" }}>Available Vacation {employee[0].role === "a" ? "Days" : "Hours"}</TableCell>
+                                        <TableCell align="left" sx={{ fontSize: 16, fontWeight: "bold" }}>Total Vacation </TableCell>
+                                        <TableCell align="left" sx={{ fontSize: 16, fontWeight: "bold" }}>Vacation Taken </TableCell>
+                                        <TableCell align="left" sx={{ fontSize: 16, fontWeight: "bold" }}>Available Vacation </TableCell>
                                         <TableCell align="left" sx={{ fontSize: 16, fontWeight: "bold" }}>Action </TableCell>
                                     </TableRow>
                                 </TableHead>
@@ -349,7 +349,7 @@ const AvailableVacation = () => {
                             </Table>
                         </TableContainer>}
                 </div>
-                  {timeSheet === null ? null :
+                  {timeSheet.length <= 0 ? null :
                     <Box sx={{ marginTop: "25px" }}>
                         <Typography sx={{ fontSize: 20, fontWeight: "bold", margin: "10px" }}>Vacation Hours</Typography>
                         <TableContainer component={Paper}>
@@ -358,10 +358,10 @@ const AvailableVacation = () => {
                                     <TableRow sx={{ bgcolor: "#E2E3E5" }}>
                                         <TableCell align="left" sx={{ fontSize: 16, fontWeight: "bold" }}>Requested Date</TableCell>
                                         <TableCell align="left" sx={{ fontSize: 16, fontWeight: "bold" }}>description</TableCell>
-                                        <TableCell align="left" sx={{ fontSize: 16, fontWeight: "bold" }}>Total {employee[0].role === "a" ? "Days" : "Hours"}</TableCell>
-                                        <TableCell align="left" sx={{ fontSize: 16, fontWeight: "bold" }}>Applied {employee[0].role === "a" ? "Days" : "Hours"}</TableCell>
-                                        <TableCell align="left" sx={{ fontSize: 16, fontWeight: "bold" }}>Approved {employee[0].role === "a" ? "Days" : "Hours"} </TableCell>
-                                        <TableCell align="left" sx={{ fontSize: 16, fontWeight: "bold" }}>Balanced {employee[0].role === "a" ? "Days" : "Hours"}</TableCell>
+                                        <TableCell align="left" sx={{ fontSize: 16, fontWeight: "bold" }}>Total</TableCell>
+                                        <TableCell align="left" sx={{ fontSize: 16, fontWeight: "bold" }}>Applied </TableCell>
+                                        <TableCell align="left" sx={{ fontSize: 16, fontWeight: "bold" }}>Approved  </TableCell>
+                                        <TableCell align="left" sx={{ fontSize: 16, fontWeight: "bold" }}>Balanced </TableCell>
                                         <TableCell align="left" sx={{ fontSize: 16, fontWeight: "bold" }}>Role </TableCell>
                                     </TableRow>
                                 </TableHead>
