@@ -1,11 +1,10 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { TextField, Grid, Box, Typography, Button, Modal, TableContainer, Table, TableHead, TableBody, TableRow, TableCell, Paper } from "@mui/material"
-import { DatePicker, TimePicker, LocalizationProvider } from "@mui/lab"
-import AdapterDateFns from '@mui/lab/AdapterDateFns';
-import { setYear } from "date-fns";
+import { TextField, Box, Typography, Button, Modal, TableContainer, Table, TableHead, TableBody, TableRow, TableCell, Paper } from "@mui/material"
+
+
 import logo from "./asset/logo.jpg"
-import { id } from "date-fns/locale";
+
 // import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 // import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 const style = {
@@ -39,8 +38,7 @@ const AvailableVacation = () => {
     const [takenDays, setTakenDays] = useState()
     const [timeSheet, setTimeSheet] = useState()
     const [error, setError] = useState("");
-    const [availableVcation,setAvailableVacation]=useState();
-    const [balancedVacation,setBalancedVacation]=useState()
+  
 
     const getEmployees = async () => {
         const { data } = await axios.get("http://localhost:3001/execute")
@@ -102,6 +100,7 @@ const AvailableVacation = () => {
                 total_min+=parseInt(values[1])
                 console.log(total_hr)
                 console.log(total_min)
+                return values
                 
                 // }
                 
@@ -140,7 +139,7 @@ const AvailableVacation = () => {
     const getVacation = async (e, days,) => {
        
         console.log(e)
-        const selectedEmployee = employees.filter(employee => employee.EmployeeMstrID == e)
+        const selectedEmployee = employees.filter(employee => employee.EmployeeMstrID === e)
         console.log(selectedEmployee)
         var joiningDate = selectedEmployee[0].DateOfJoining
         setEmployee(selectedEmployee)
@@ -175,7 +174,7 @@ const AvailableVacation = () => {
         months += currentDate.getMonth()
         console.log(months)
         var vacation
-        if (selectedEmployee[0].role == "a") {
+        if (selectedEmployee[0].role === "a") {
             if (months < 24) {
                 var quarter = (months / 3)
                 vacation = Math.trunc(quarter) * 1.25
@@ -189,8 +188,8 @@ const AvailableVacation = () => {
                 console.log(vacation)
             }
             else if (months > 60) {
-                var twoYear = (24 / 3) * 1.25
-                var fiveYear = (36 / 3) * 2.5
+                let twoYear = (24 / 3) * 1.25
+                let fiveYear = (36 / 3) * 2.5
                 var moreThanSixYear = (Math.trunc((months - 60) / 3)) * 3.75
                 vacation = twoYear + fiveYear + moreThanSixYear
                 console.log(vacation)
@@ -210,9 +209,9 @@ const AvailableVacation = () => {
                 console.log(vacation)
             }
             else if (week > 260) {
-                var twoYear = Math.trunc((104 * average) / 52)
-                var fiveYear = Math.trunc((156) * ((average*2)) / 52)
-                var moreThanSixYear = Math.trunc((week - 260) * ((average*3)) / 52)
+                let twoYear = Math.trunc((104 * average) / 52)
+                let fiveYear = Math.trunc((156) * ((average*2)) / 52)
+                let moreThanSixYear = Math.trunc((week - 260) * ((average*3)) / 52)
                 vacation = twoYear + fiveYear + moreThanSixYear
                 console.log(vacation)
             }
@@ -246,7 +245,7 @@ const AvailableVacation = () => {
         })
         console.log(data)
 
-        if (data.success == "successfully updated") {
+        if (data.success === "successfully updated") {
             handleClose()
             getParticular(id)
 
@@ -272,6 +271,7 @@ const AvailableVacation = () => {
                     <Typography sx={{ width: 250, height: 24, fontSize: "24px", fonttWeight: 500, lineHeight: "24px", color: "#000", }}>Create User</Typography>
                     <TextField size="small" sx={{ margin: 2, }} variant="outlined" label="Name" type="string" onChange={(e) => setName(e.target.value)} />
                     <TextField size="small" sx={{ margin: 2, }} variant="outlined" label="role" type="string" onChange={(e) => setRole(e.target.value)} />
+                    <TextField size="small" sx={{ margin: 2, }} variant="outlined" label="used hours" type="string" onChange={(e) => setHours(e.target.value)} />
                     <TextField
                         id="date"
                         label="Date of Joining"
@@ -310,7 +310,7 @@ const AvailableVacation = () => {
                     </select>
                 </div>
                 <div style={{ marginTop: "25px" }}>
-                    {employee == null ? null :
+                    {employee === null ? null :
                         <TableContainer component={Paper}>
                             <Table sx={{ minWidth: 650 }} aria-label="simple table">
                                 <TableHead>
@@ -318,9 +318,9 @@ const AvailableVacation = () => {
                                         <TableCell align="left" sx={{ fontSize: 16, fontWeight: "bold" }}>Employee Name</TableCell>
                                         <TableCell align="left" sx={{ fontSize: 16, fontWeight: "bold" }}>Date of Joining</TableCell>
                                         <TableCell align="left" sx={{ fontSize: 16, fontWeight: "bold" }}>Role</TableCell>
-                                        <TableCell align="left" sx={{ fontSize: 16, fontWeight: "bold" }}>Total Vacation {employee[0].role == "a" ? "Days" : "Hours"}</TableCell>
-                                        <TableCell align="left" sx={{ fontSize: 16, fontWeight: "bold" }}>Vacation Taken {employee[0].role == "a" ? "Days" : "Hours"}</TableCell>
-                                        <TableCell align="left" sx={{ fontSize: 16, fontWeight: "bold" }}>Available Vacation {employee[0].role == "a" ? "Days" : "Hours"}</TableCell>
+                                        <TableCell align="left" sx={{ fontSize: 16, fontWeight: "bold" }}>Total Vacation {employee[0].role === "a" ? "Days" : "Hours"}</TableCell>
+                                        <TableCell align="left" sx={{ fontSize: 16, fontWeight: "bold" }}>Vacation Taken {employee[0].role === "a" ? "Days" : "Hours"}</TableCell>
+                                        <TableCell align="left" sx={{ fontSize: 16, fontWeight: "bold" }}>Available Vacation {employee[0].role === "a" ? "Days" : "Hours"}</TableCell>
                                         <TableCell align="left" sx={{ fontSize: 16, fontWeight: "bold" }}>Action </TableCell>
                                     </TableRow>
                                 </TableHead>
@@ -349,7 +349,7 @@ const AvailableVacation = () => {
                             </Table>
                         </TableContainer>}
                 </div>
-                  {timeSheet == null ? null :
+                  {timeSheet === null ? null :
                     <Box sx={{ marginTop: "25px" }}>
                         <Typography sx={{ fontSize: 20, fontWeight: "bold", margin: "10px" }}>Vacation Hours</Typography>
                         <TableContainer component={Paper}>
@@ -358,10 +358,10 @@ const AvailableVacation = () => {
                                     <TableRow sx={{ bgcolor: "#E2E3E5" }}>
                                         <TableCell align="left" sx={{ fontSize: 16, fontWeight: "bold" }}>Requested Date</TableCell>
                                         <TableCell align="left" sx={{ fontSize: 16, fontWeight: "bold" }}>description</TableCell>
-                                        <TableCell align="left" sx={{ fontSize: 16, fontWeight: "bold" }}>Total {employee[0].role == "a" ? "Days" : "Hours"}</TableCell>
-                                        <TableCell align="left" sx={{ fontSize: 16, fontWeight: "bold" }}>Applied {employee[0].role == "a" ? "Days" : "Hours"}</TableCell>
-                                        <TableCell align="left" sx={{ fontSize: 16, fontWeight: "bold" }}>Approved {employee[0].role == "a" ? "Days" : "Hours"} </TableCell>
-                                        <TableCell align="left" sx={{ fontSize: 16, fontWeight: "bold" }}>Balanced {employee[0].role == "a" ? "Days" : "Hours"}</TableCell>
+                                        <TableCell align="left" sx={{ fontSize: 16, fontWeight: "bold" }}>Total {employee[0].role === "a" ? "Days" : "Hours"}</TableCell>
+                                        <TableCell align="left" sx={{ fontSize: 16, fontWeight: "bold" }}>Applied {employee[0].role === "a" ? "Days" : "Hours"}</TableCell>
+                                        <TableCell align="left" sx={{ fontSize: 16, fontWeight: "bold" }}>Approved {employee[0].role === "a" ? "Days" : "Hours"} </TableCell>
+                                        <TableCell align="left" sx={{ fontSize: 16, fontWeight: "bold" }}>Balanced {employee[0].role === "a" ? "Days" : "Hours"}</TableCell>
                                         <TableCell align="left" sx={{ fontSize: 16, fontWeight: "bold" }}>Role </TableCell>
                                     </TableRow>
                                 </TableHead>
