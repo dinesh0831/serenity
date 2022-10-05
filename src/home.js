@@ -4,6 +4,7 @@ import { TextField, Box, Typography, Button, Modal, TableContainer, Table, Table
 
 
 import logo from "./asset/logo.jpg"
+import { parse } from "date-fns";
 
 // import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 // import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
@@ -41,7 +42,7 @@ const AvailableVacation = () => {
   
 
     const getEmployees = async () => {
-        const { data } = await axios.get("http://localhost:3001/execute")
+        const { data } = await axios.get("execute")
         console.log(data.recordset)
         // setEmployees(data.recordset)
         // const category_B=data.recordset.filter(item=>{
@@ -86,8 +87,8 @@ const AvailableVacation = () => {
     }
     var getParticular = async (id) => {
        
-        let { data } = await axios.get(`/availablevacation/${id}`)
-        let new_leave=await axios.get(`/users/vacation/${id}`)
+        let { data } = await axios.get(`availablevacation/${id}`)
+        let new_leave=await axios.get(`users/vacation/${id}`)
         console.log(new_leave)
         console.log(id)
         var total_hr=0
@@ -139,7 +140,13 @@ const AvailableVacation = () => {
     const getVacation = async (e, days,) => {
        
         console.log(e)
-        const selectedEmployee = employees.filter(employee => employee.EmployeeMstrID === e)
+        let selectedEmployee = employees.filter(employee =>{
+            console.log(employee.EmployeeMstrID)
+           return employee.EmployeeMstrID ===parseInt(e) 
+
+        } 
+           )
+        console.log(employees)
         console.log(selectedEmployee)
         var joiningDate = selectedEmployee[0].DateOfJoining
         setEmployee(selectedEmployee)
